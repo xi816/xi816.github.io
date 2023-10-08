@@ -1,9 +1,5 @@
-let colorscheme = "dark";
+let colorscheme = "light";
 let els = ["csh", "part1", "part2"];
-
-if (colorscheme === "dark") {
-  document.getElementById("btn1").click();
-}
 
 document.getElementById("btn1").onclick = function() {
   colorscheme = "dark";
