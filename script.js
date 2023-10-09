@@ -11,7 +11,7 @@ document.getElementById("btn1").onclick = function() {
     document.getElementById(els[i]).style.color = "#DDD";
   }
   document.getElementById("tier1").style.color = "#FFF";
-  document.getElementById("tier2t3").style.color = "#E10";
+  document.getElementById("tier2t5").style.color = "#E10";
 }
 
 document.getElementById("btn2").onclick = function () {
