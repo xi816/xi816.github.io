@@ -1,0 +1,16 @@
+.template_stub {
+  background-color: red;
+  border: 2px solid #a00;
+  margin: 10px;
+  padding: 10px;
+  color: #ffffff;
+  font-family: "Cambria", serif;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#plane {
+  font-family: "Cambria", serif;
+  font-size: 24px;
+}
+

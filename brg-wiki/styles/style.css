@@ -1,0 +1,12 @@
+.headerbox1{
+  text-align: center;
+  color: #eeeeee;
+  background-color: #3366cc;
+  border: 3px solid #003399;
+  margin: 20px;
+  padding: 12px;
+}
+
+.navigheader{
+  margin-left: 20px;
+}
