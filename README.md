@@ -1,1 +1,1 @@
-# Illion numbers by Yglyglya v0.1
+# википедіа (Wikipedia) ѧзїку наваборћаватъ тътъ ѣчасъ̀!
