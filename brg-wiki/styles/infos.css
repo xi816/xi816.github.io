@@ -9,8 +9,11 @@
   font-size: 16px;
 }
 
-#plane {
-  font-family: "Cambria", serif;
-  font-size: 24px;
+.page-title {
+  margin: 5px;
 }
 
+#plane {
+  font-family: "Cambria Math", "Cambria", serif;
+  font-size: 24px;
+}
