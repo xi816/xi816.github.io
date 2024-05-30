@@ -1,1 +1,38 @@
+.headerbox1 {
+  text-align: center;
+  color: #000000;
+  width: 100%;
+  background-color: #EEEEEE;
+  border-bottom: 5px solid #EE1A09;
+}
 
+.navigheader {
+  margin-left: 20px;
+}
+
+.page-footer {
+  height: 75px;
+  background-color: #CCCCCC;
+  font-family: "Cambria Math", serif;
+  margin-top: 50px;
+  position: sticky;
+  bottom: 5px;
+  text-align: center;
+  border: 2px solid;
+  border-color: #999999;
+}
+
+.page-footer-title {
+  color: #303030;
+  font-size: 16px;
+}
+
+.page-footer-el {
+  color: #303030;
+  font-size: 16px;
+}
+
+
+.slc {
+  float: right;
+}
