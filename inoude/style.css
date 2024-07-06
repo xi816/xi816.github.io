@@ -1,0 +1,54 @@
+body {
+  font-family: "Times New Roman", "Liberation Serif";
+}
+
+.ab {
+  color: #0000EE;
+}
+
+.ph1 {
+  font-size: 32px;
+}
+
+.plain {
+  font-size: 22px;
+}
+
+.section {
+  display: flex;
+  justify-content: center;
+}
+
+.cd {
+  display: flex;
+  justify-content: center;
+}
+
+.pline {
+  float: left;
+  text-align: center;
+  margin: 10px;
+}
+
+.tbl {
+  border: 1px solid #000000;
+  margin: 2px;
+}
+
+th {
+  border: 1px solid #000000;
+  padding: 3px;
+}
+
+button {
+  border: 2px solid #000000;
+  background: #FFFFFF;
+  font-family: "Times New Roman", "Liberation Serif";
+}
+
+pre {
+  background: #EEEEEE;
+  font-family: "DejaVu Sans Mono";
+  font-size: 12px;
+}
+
