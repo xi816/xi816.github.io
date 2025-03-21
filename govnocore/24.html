@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="../style.css">
+  </head>
+  <body>
+    <h2 id="header" style="color: #fdfefe; background-color: #336699;
+                           padding: 10px;
+                           font-size: 24px;">
+      Govno Core 24
+    </h2>
+    <div style="display: flex; background-color: #EEEEEE; font-family: 'Verdana', 'sans'; font-size: 14px; position: sticky; top: 0">
+      <a href="../index.html" style="margin: 3px;">Back</a>
+    </div>
+    <hr>
+
+    <h1>0. Disambiguations</h1>
+    <ul>
+      <li>$XXXXXX -- must refer to a hex value.</li>
+      <li>Bank -- must refer to a 64 KiB memory space.</li>
+      <li>Word -- must refer to a 16-bit value, not to be confused with <a href="https://en.wikipedia.org/wiki/Word_(computer_architecture)">Machine Word</a>.</li>
+    </ul><br>
+    <h1>1. Govno Core 24 CPU architecture</h1>
+    <h2>1.1. Registers</h2>
+    <p>Govno Core 24 CPU consists of 6 general purpose (AX,BX,CX,DX,SI,GI) and 4 special purpose (SP,BP,PS,PC) registers. Although, SP (stack pointer) and BP (base pointer) are addressable in the register cluster.</p>
+    <h3>1.1.1. Register Cluster</h3>
+<p>Register cluster is a structure that consists of 2 register addresses in 1 byte. the first one is stored in bits [5..3], and the second one is stored in [2..0]. An example of a register cluster would be $33. To understand its meaning, we need to convert it to binary and slice it to 3 pieces. $33 in binary would be 00110011. Now, we need to split it as 2/3/3 bits. With the split we get 00 110 011. Now, we need to convert register addresses to their names and remove the first 2 bits: we get %sp, %dx. That is our register addresses than we can use, for example, in <span class="pre">add/rc</span> or <span class="pre">mov/rc</span> instructions.</p>
+<p>Register address to name conversion is done via this table:</p>
+<table>
+  <tr><th>RegAddr</th><th>RegName</th></tr>
+  <tr><td>000</td><td>AX</td></tr>
+  <tr><td>001</td><td>BX</td></tr>
+  <tr><td>010</td><td>CX</td></tr>
+  <tr><td>011</td><td>DX</td></tr>
+  <tr><td>100</td><td>SI</td></tr>
+  <tr><td>101</td><td>GI</td></tr>
+  <tr><td>110</td><td>SP</td></tr>
+  <tr><td>111</td><td>BP</td></tr>
+</table>
+<p>The general purpose registers, SP, BP and PC are 24-bit wide (therefore CPU's name). PS (processor status, commonly known as <a href="https://en.wikipedia.org/wiki/FLAGS_register">FLAGS register</a>) is 8-bit wide.</p>
+<h2>1.2. Memory</h2>
+<p>Govno Core 24 has a 24-bit address bus (therefore its name). That means, it can address up to 16 MiB of memory. The memory layout is as follows:</p>
+<table>
+  <tr><th>Addresses</th><th>Purpose</th></tr>
+  <tr><td>$000000-$00FFFF</td><td>General purpose memory</td></tr>
+  <tr><td>$030000-$03FFFF</td><td>Boot sector (boot bank)</td></tr>
+  <tr><td>$700000-$7FFFFF</td><td>BIOS static binary</td></tr>
+  <tr><td>$FE0000-$FEFFFF</td><td>Stack</td></tr>
+  <tr><td>$FF0000-$FFFFFF</td><td>Interrupt tables</td></tr>
+</table>
+<h3>1.2.1. Stack</h3>
+<p>Govno Core 24 has a stack that is located at addresses $FE0000-$FEFFFF. It is one bank long (64 KiB long).</p>
+<h2>1.3. Type sizes</h2>
+<p>Govno Core 24 has 3 basic types:</p>
+<ul>
+  <li><span class="pre">byte</span>, an 8-bit value ranging from 0 to 256 or -128 to 127.</li>
+  <li><span class="pre">word</span>, a 16-bit value ranging from 0 to 65,536 or -32,768 to 32,767.</li>
+  <li><span class="pre">hword</span>, a 24-bit value ranging from 0 to 16,777,216 or -8,388,608 to 8,388,607.</li>
+</ul>
+    <p>The maximum variable length is 24 bits, although you can make multi-hword addition/subtraction with adc and sbb. (Nope, they don't exist yet).</p>
+    <hr style="background-color: #EEEEEE; height: 25px">
+  </body>
+</html>
