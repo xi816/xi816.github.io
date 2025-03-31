@@ -23,8 +23,8 @@
     <h1>1. Govno Core 24 CPU architecture</h1>
     <h2>1.1. Registers</h2>
     <p>Govno Core 24 CPU consists of 6 general purpose (AX,BX,CX,DX,SI,GI) and 4 special purpose (SP,BP,PS,PC) registers. Although, SP (stack pointer) and BP (base pointer) are addressable in the register cluster.</p>
-    <h3>1.1.1. Register Cluster</h3>
-<p>Register cluster is a structure that consists of 2 register addresses in 1 byte. the first one is stored in bits [5..3], and the second one is stored in [2..0]. An example of a register cluster would be $33. To understand its meaning, we need to convert it to binary and slice it to 3 pieces. $33 in binary would be 00110011. Now, we need to split it as 2/3/3 bits. With the split we get 00 110 011. Now, we need to convert register addresses to their names and remove the first 2 bits: we get %sp, %dx. That is our register addresses than we can use, for example, in <span class="pre">add/rc</span> or <span class="pre">mov/rc</span> instructions.</p>
+    <h3 id="rc">1.1.1. Register Cluster</h3>
+<p>Register cluster is a structure that consists of 2 register addresses in 1 byte. the first one is stored in bits [5..3], and the second one is stored in [2..0]. An example of a register cluster would be $33. To understand its meaning, we need to convert it to binary and slice it as 2/3/3. $33 would be converted to 00 110 011. Now, we need to convert register addresses to their names and remove the first 2 bits: we get %sp, %dx. That is our register addresses than we can use, for example, in <span class="pre">add/rc</span> or <span class="pre">mov/rc</span> instructions.</p>
 <p>Register address to name conversion is done via this table:</p>
 <table>
   <tr><th>RegAddr</th><th>RegName</th></tr>
@@ -38,6 +38,10 @@
   <tr><td>111</td><td>BP</td></tr>
 </table>
 <p>The general purpose registers, SP, BP and PC are 24-bit wide (therefore CPU's name). PS (processor status, commonly known as <a href="https://en.wikipedia.org/wiki/FLAGS_register">FLAGS register</a>) is 8-bit wide.</p>
+<h3>1.1.2. The $SP register</h3>
+<p>The $SP register -- Stack pointer, in Govno Core 24 points to the highest stack value - 1. When pushed to the stack, it is decremented, and when popping, it's incremented. It is a 24-bit addressable special purpose register.</p>
+<h3>1.1.3. The $PC register</h3>
+<p>The $PC -- Program counter, is a register in Govno Core 24 points to the current instruction's opcode that is being executed. It is a 24-bit nonaddressable special purpose register.</p>
 <h2>1.2. Memory</h2>
 <p>Govno Core 24 has a 24-bit address bus (therefore its name). That means, it can address up to 16 MiB of memory. The memory layout is as follows:</p>
 <table>
@@ -46,7 +50,7 @@
   <tr><td>$030000-$03FFFF</td><td>Boot sector (boot bank)</td></tr>
   <tr><td>$700000-$7FFFFF</td><td>BIOS static binary</td></tr>
   <tr><td>$FE0000-$FEFFFF</td><td>Stack</td></tr>
-  <tr><td>$FF0000-$FFFFFF</td><td>Interrupt tables</td></tr>
+  <tr><td>$FF0000-$FF017F</td><td>Interrupt tables</td></tr>
 </table>
 <h3>1.2.1. Stack</h3>
 <p>Govno Core 24 has a stack that is located at addresses $FE0000-$FEFFFF. It is one bank long (64 KiB long).</p>
@@ -58,6 +62,8 @@
   <li><span class="pre">hword</span>, a 24-bit value ranging from 0 to 16,777,216 or -8,388,608 to 8,388,607.</li>
 </ul>
     <p>The maximum variable length is 24 bits, although you can make multi-hword addition/subtraction with adc and sbb. (Nope, they don't exist yet).</p>
+    <h2>1.4. Instructions</h2>
+    <p>Govno Core 24 instruction consists of a 1-byte opcode, and 0-2 operands. An operand can be a <a href="#rc">Register Cluster</a>, a 24-bit immediate, or</p>
     <hr style="background-color: #EEEEEE; height: 25px">
   </body>
 </html>
