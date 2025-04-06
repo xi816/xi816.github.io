@@ -71,7 +71,7 @@
 </ul>
     <p>The maximum variable length is 24 bits, although you can make multi-hword addition/subtraction with adc and sbb. (Nope, they don't exist yet).</p>
     <h2>1.4. Instructions</h2>
-    <p>Govno Core 24 instruction consists of a 1-byte opcode, and 0-2 operands. An operand can be a <a href="#rc">Register Cluster</a>, a 24-bit immediate, or</p>
+    <p>Govno Core 24 instruction consists of a 1-byte opcode, and 0-2 operands. An operand can be a <a href="#rc">Register Cluster</a>, a 24-bit immediate, or a 24-bit wide address.</p>
     <h1>2. Boot process</h1>
     <p>Govno Core 24 starts booting by setting: AX,BX,CX,DX,SI,GI to $000000, SP,BP to $FEFFFF, PC to ($030000 without BIOS, and $700000 with a BIOS).</p>
     <p>Then, it starts loading the Boot bank ($C00000-$C0FFFF on the disk). It contains binary code that GC24 will load to $030000, and start executing. The loading ends when GC24 finds $AA55 signature.</p>
@@ -301,10 +301,10 @@
     </table>
 
     <h2>sti</h2>
-    <p>The <span class="pre">sti</span> instruction sets an address in the interrupt vector to SI.</p>
+    <p>The <span class="pre">sti</span> instruction sets an address of an interrupt imm8 in the interrupt vector to SI.</p>
     <table>
       <tr><th>Opcode</th><th>Operands</th><th>Description</th></tr>
-      <tr><td>$03</td><td>implicit</td><td>Set the address in interrupt vector to register SI.</td></tr>
+      <tr><td>$03</td><td>imm8</td><td>Set the interrupt imm8's address in interrupt vector to register SI.</td></tr>
     </table>
 
     <h2>sub</h2>
