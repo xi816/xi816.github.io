@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="../style.css">
+  </head>
+  <body>
+    <h2 id="header" style="color: #fdfefe; background-color: #336699;
+                           padding: 10px;
+                           font-size: 24px;">
+      Govno Core 16X
+    </h2>
+    <div style="display: flex; background-color: #EEEEEE; font-family: 'Verdana', 'sans'; font-size: 14px; position: sticky; top: 0">
+      <a href="../index.html" style="margin: 3px;">Back</a>
+      <a href="#regs" style="margin: 3px;">Registers</a>
+      <a href="#inst" style="margin: 3px;">Instructions</a>
+      <a href="#prefix" style="margin: 3px;">Prefixes</a>
+      <a href="#examples" style="margin: 3px;">Examples</a>
+    </div>
+
+  <hr>
+  <div id="regs">
+    <h1>Registers</h1>
+    <p>This section shows all Govno Core 16X registers.</p>
+    <h2>General purpose registers</h2>
+    <p><a href="https://en.wikipedia.org/wiki/General_purpose_register">General purpose registers</a> are 16-bit registers that can be used to save data for user program purposes.</p>
+    <p>Also see <a href="#reg-rc">Register cluster</a></p>
+    <table id="regtable">
+      <tr>
+        <td><a href="https://en.wikipedia.org/wiki/Nibble">Nibble</a></td>
+        <td>GP register</td>
+      </tr>
+      <tr><td>$0</td><td>A/AX</td></tr>
+      <tr><td>$1</td><td>B/BX</td></tr>
+      <tr><td>$2</td><td>C/CX</td></tr>
+      <tr><td>$3</td><td>D/DX</td></tr>
+      <tr><td>$4</td><td>S/SI</td></tr>
+      <tr><td>$5</td><td>G/GI</td></tr>
+      <tr><td>$6</td><td>SP</td></tr>
+      <tr><td>$7</td><td>BP</td></tr>
+      <tr><td>$8</td><td>E/EX</td></tr>
+      <tr><td>$9</td><td>F/FX</td></tr>
+      <tr><td>$A</td><td>H/HX</td></tr>
+      <tr><td>$B</td><td>L/LX</td></tr>
+      <tr><td>$C</td><td>X</td></tr>
+      <tr><td>$D</td><td>Y</td></tr>
+      <tr><td>$E</td><td>IX</td></tr>
+      <tr><td>$F</td><td>IY</td></tr>
+    </table>
+
+    <h2>Stack pointer</h2>
+    <p>The stack pointer is a 16-bit register that is pointing to the (lowest byte of a 16-bit value on the stack)-1, or, to the top of the stack.</p>
+    <h2>Base pointer</h2>
+    <p>The base pointer is a 16-bit register that is pointing somewhere in the stack. Do i look like i use it?</p>
+    <h2>Program counter</h2>
+    <p>The program counter is a 16-bit register that stores the current instruction being executed.</p>
+    <p>It can be modified using <a href="#jmp">jumps</a>, <a href="#call">calls</a> and <a href="#ret">returns</a></p>
+    <h1 id="reg-rc">Register cluster</h1>
+    <p>Register cluster is a byte containing 2 register addresses. The address to the register is 4 bits long (there are 16 cluster-addressable registers). So, one byte can contain 2 registers in it.</p>
+    <p>Example register cluster: $41 → 0100|0001 → %s|%b</p>
+    <p>See <a href="#regtable">register table</a> to find the addresses for every register.</p>
+  </div>
+
+  <div id="inst">
+    <h1>Instructions</h1>
+    <span id="inst-size"></span>
+    <h2>Instruction size</h2>
+    <p>Instruction size can be 1 byte (like RET - $33) or 2 byte (like <a href="#lda--i">LDA[i]</a> - $6605). 2-byte instructions in Govno Core 16X are called "word instructions". First byte of a word instruction defines its type (ex. LDA starts with $66, and page $66 is a word-sized register-manipulating operation).</p>
+    <table>
+      <tr>
+        <td>Page</td>
+        <td>Meaning</td>
+      </tr>
+      <tr>
+        <td>No page</td>
+        <td>General purpose operation</td>
+      </tr>
+      <tr>
+        <td>$0F</td>
+        <td>Control flow/stack operation</td>
+      </tr>
+      <tr>
+        <td>$10</td>
+        <td>Math operation</td>
+      </tr>
+    </table>
+
+    <h2 id="prefix">Instruction prefix</h2>
+    <p>Instruction prefix is a byte attached to the start of an opcode that gives additional information about the operands.</p>
+    <p>Example: Instruction $40 is LDA(imm16), but with the $93 prefix (the whole opcode would be $9340), it would mean LDA(imm16+%s+%g).</p>
+    <table>
+      <tr><td>Prefix</td><td>Meaning</td></tr>
+      <tr><td>$91</td><td>+%s</td></tr>
+      <tr><td>$92</td><td>+%g</td></tr>
+      <tr><td>$93</td><td>+%s+%g</td></tr>
+      <tr><td>$94</td><td>+%ix</td></tr>
+      <tr><td>$95</td><td>+%ix+%s</td></tr>
+      <tr><td>$96</td><td>+%ix+%g</td></tr>
+      <tr><td>$97</td><td>+%ix+%s+%g</td></tr>
+      <tr><td>$98</td><td>+%iy</td></tr>
+      <tr><td>$99</td><td>+%iy+%s</td></tr>
+      <tr><td>$9A</td><td>+%iy+%g</td></tr>
+      <tr><td>$9B</td><td>+%iy+%s+%g</td></tr>
+      <tr><td>$9C</td><td>+%iy+%ix</td></tr>
+      <tr><td>$9D</td><td>+%iy+%ix+%s</td></tr>
+      <tr><td>$9E</td><td>+%iy+%ix+%g</td></tr>
+      <tr><td>$9F</td><td>+%iy+%ix+%s+%g</td></tr>
+    </table>
+
+
+    <br>
+    <span id="add"></span>
+    <h2>ADD - Add values</h2>
+    <p>The instruction adds the contents of two registers/memory location/immediate.</p>
+    <table>
+      <tr>
+        <th>Addressing mode</th>
+        <th>Opcode</th>
+        <th>Instruction</th>
+        <th>Size</th>
+      </tr>
+      <tr>
+        <td>rc8</td>
+        <td>$1000</td>
+        <td>Add %rc1 to %rc0</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>imm16</td>
+        <td>$1008</td>
+        <td>Add $i to A register</td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td>imm16</td>
+        <td>$1009</td>
+        <td>Add $i to B register</td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td>imm16</td>
+        <td>$100A</td>
+        <td>Add $i to C register</td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td>imm16</td>
+        <td>$100B</td>
+        <td>Add $i to D register</td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td>imm16</td>
+        <td>$100C</td>
+        <td>Add $i to S register</td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td>imm16</td>
+        <td>$100D</td>
+        <td>Add $i to G register</td>
+        <td>4</td>
+      </tr>
+    </table><br>
+
+    <span id="and"></span>
+    <h2>AND - Bitwise AND</h2>
+    <p>Performing the bitwise AND to two registers.</p>
+    <table>
+      <tr>
+        <th>Addressing mode</th>
+        <th>Opcode</th>
+        <th>Instruction</th>
+        <th>Size</th>
+      </tr>
+      <tr>
+        <td>rc8</td>
+        <td>$10D8</td>
+        <td>Bitwise and for %rc0 and %rc1</td>
+        <td>3</td>
+      </tr>
+    </table><br>
+
+    <span id="clc"></span>
+    <h2>CLC - Clear carry</h2>
+    <p>Clearing the carry flag.</p>
+    <table>
+      <tr>
+        <th>Addressing mode</th>
+        <th>Opcode</th>
+        <th>Instruction</th>
+        <th>Size</th>
+      </tr>
+      <tr>
+        <td>Implied</td>
+        <td>$36</td>
+        <td>Clear carry</td>
+        <td>1</td>
+      </tr>
+    </table><br>
+
+    <span id="clc"></span>
+    <h2>CMP - Compare</h2>
+    <p>Compare registers/immediate values and set the flags.</p>
+    <p>Flags after the instruction:</p>
+    <table>
+      <tr>
+        <td>C</td>
+        <td>Carry flag</td>
+        <td>Not affected</td>
+      </tr>
+      <tr>
+        <td>Z</td>
+        <td>Zero flag</td>
+        <td>Set if values are equal</td>
+      </tr>
+    </table><br>
+
+    <p></p><table>
+      <tr>
+        <th>Addressing mode</th>
+        <th>Opcode</th>
+        <th>Instruction</th>
+        <th>Size</th>
+      </tr>
+      <tr>
+        <td>rc8</td>
+        <td>$10F6</td>
+        <td>Compare %rc0 and %rc1</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>reg8,imm16</td>
+        <td>$10EE</td>
+        <td>Compare %r and $i</td>
+        <td>5</td>
+      </tr>
+    </table>
+
+    <span id="lda"></span>
+    <h2>LDA - Load value into AX register</h2>
+    <p>The instruction loads the contents of register/memory location/immediate into the AX register.</p>
+    <table>
+      <tr>
+        <th>Addressing mode</th>
+        <th>Opcode</th>
+        <th>Instruction</th>
+        <th>Size</th>
+      </tr>
+      <tr id="lda--i">
+        <td>imm16</td>
+        <td>$40</td>
+        <td>Set AX to an immediate value</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>mz8</td>
+        <td>$D8</td>
+        <td>Set AX to a Zero Page address value</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>addr16</td>
+        <td>$A0</td>
+        <td>Set AX to a memory address value</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>reg16</td>
+        <td>$77</td>
+        <td>Set AX to a register value</td>
+        <td>2</td>
+      </tr>
+    </table>
+    <p>See <a href="#examples-lda">LDA examples</a></p><br>
+
+    <span id="ldb"></span>
+    <h2>LDB - Load value into BX register</h2>
+    <p>The instruction loads the contents of register/memory location/immediate into the BX register.</p>
+    <table>
+      <tr>
+        <th>Addressing mode</th>
+        <th>Opcode</th>
+        <th>Instruction</th>
+        <th>Size</th>
+      </tr>
+      <tr>
+        <td>imm16</td>
+        <td>$41</td>
+        <td>Set BX to an immediate value</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>mz8</td>
+        <td>$D9</td>
+        <td>Set BX to a Zero Page address value</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>addr16</td>
+        <td>$A1</td>
+        <td>Set BX to a memory address value</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>reg16</td>
+        <td>$78</td>
+        <td>Set BX to a register value</td>
+        <td>2</td>
+      </tr>
+    </table><br>
+
+    <span id="ldc"></span>
+    <h2>LDC - Load value into CX register</h2>
+    <p>The instruction loads the contents of register/memory location/immediate into the CX register.</p>
+    <table>
+      <tr>
+        <th>Addressing mode</th>
+        <th>Opcode</th>
+        <th>Instruction</th>
+        <th>Size</th>
+      </tr>
+      <tr>
+        <td>imm16</td>
+        <td>$42</td>
+        <td>Set CX to an immediate value</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>mz8</td>
+        <td>$DA</td>
+        <td>Set CX to a Zero Page address value</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>addr16</td>
+        <td>$A2</td>
+        <td>Set CX to a memory address value</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>reg16</td>
+        <td>$79</td>
+        <td>Set CX to a register value</td>
+        <td>2</td>
+      </tr>
+    </table><br>
+
+    <span id="ldd"></span>
+    <h2>LDD - Load value into DX register</h2>
+    <p>The instruction loads the contents of register/memory location/immediate into the DX register.</p>
+    <table>
+      <tr>
+        <th>Addressing mode</th>
+        <th>Opcode</th>
+        <th>Instruction</th>
+        <th>Size</th>
+      </tr>
+      <tr>
+        <td>imm16</td>
+        <td>$43</td>
+        <td>Set DX to an immediate value</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>mz8</td>
+        <td>$DB</td>
+        <td>Set DX to a Zero Page address value</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>ma16</td>
+        <td>$A3</td>
+        <td>Set DX to a memory address value</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>reg16</td>
+        <td>$7A</td>
+        <td>Set DX to a register value</td>
+        <td>2</td>
+      </tr>
+    </table><br>
+
+    <h1>Examples</h1>
+    <h2 id="examples-lda">LDA</h2>
+    <pre>
+main:
+  lda $50     ; imm16
+
+  ldd $69
+  lda %d      ; reg16
+
+  lad ($69)   ; mz8
+
+  lda ($8000) ; ma16
+</pre>
+
+    </div>
+  </body>
+</html>
+

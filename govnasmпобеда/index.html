@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <style>
+    body {
+      background-color: #8F5000;
+      color: #FFFFFF;
+    }
+    * {
+      font-size: 32px;
+      font-family: "Arial";
+    }
+  </style>
+  <body>
+    <center><h1>GovnASM победа</h1></center>
+    <p>GovnASM - лучший язык программирования 2,025</p>
+    <pre>
+- В GovnASM пишут только чистый код
+- В GovnASM пишут только лучший код из лучших
+- В GovnASM лучший синтаксис из всех ассембли языков
+- Слава kasm -- нашему великому компилятору</pre>
+  <center><img src="pobeda.png"></center><br>
+  <p id="upd00">GovnASM победа уже</p>
+  </body>
+  <script>
+const tEarlier = new Date("2024-11-03");
+const tLater = new Date();
+const tMillisecondsElapsed = tLater - tEarlier;
+
+const tELapsed = new Date(tMillisecondsElapsed);
+tELapsed.setFullYear(tELapsed.getFullYear() - 1970);
+
+let strDate = tELapsed.toISOString().slice(0, 10); // ISO date is yyyy-mm-dd
+strDate = strDate.split("-");
+
+document.getElementById("upd00").innerHTML += " " + parseInt(strDate[0]) + " лет";
+  </script>
+</html>

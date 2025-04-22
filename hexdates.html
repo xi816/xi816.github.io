@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <!--<head>
+    <link rel="stylesheet" href="style.css">
+  </head>-->
+  <body>
+    <h2 style="color: #fdfefe; background-color: #336699;
+               padding: 10px;
+               font-size: 24px;">
+      Hexadecimal dates standard (by Xi-816)
+    </h2>
+    <h1>Long dates</h1>
+    <p>Long date format is represented as ISO 8.601e3 YEAR-MONTH-DAY format, but in hexadecimal. The paddings are Y(3)-M(2)-D(2). Although month can only go from 1 to C.</p>
+    <p>Examples: 2025-04-20 -> 7E9-04-14 or 04.14.7E9, 2030-10-27 -> 7ED-0A-1B or 0A.1B.7ED, 2022-08-23 -> 7E6-08-17 or 08.17.7E6, 1254/09/15 -> 4E6-09-0F or 09.0F.4E6.</p>
+    <h1>Short dates</h1>
+    <p>Short date format is represented as YEAR(2)/MONTH(2)/DAY(2) or MONTH(2).DAY(2).YEAR(2) format in hexadecimal.</p>
+    <p>Examples: 2025-04-20 (04/20/25) -> E9/04/14 or 04.14.E9, 2030-10-27 (10/27/30) -> ED/0A/1B or 0A.1B.ED, 2022-08-23 (08/23/22) -> E6/08/17 or 08.17.E6.</p>
+    <p>Short dates can only be used when the year is between 1,792 (Year 700) - 2,047 (Year 7FF). When the year is not in that range, you should use a long date. If the date is between 1,536 (Year 600) - 1,791 (Year 6FF), you can use apostrophe (') to specify the previous Sexquintigintiduocentury.</p>
+    <p>Examples: 1970-01-01 (01/01/'70) -> B2/01/01 or 01.01.B2, 1828-08-28 -> 24/08/1C or 08.1C.24, 1599-01-31 -> '3F/01/1F or 01.1F.'3F, 1889-04-20 -> 61/04/14 or 04.14.61.</p>
+  </body>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: 'FreeSans', 'Verdana', 'sans';
+      font-size: 14px;
+    }
+    a {
+      color: #202020;
+    }
+    a:hover {
+      color: #3030A0;
+    }
+    a,p {
+      margin: 5px;
+    }
+    h1 {
+      margin: 5px;
+    }
+    p {
+      margin: 10px;
+      padding-left: 20px;
+      font-size: 18px;
+    }
+    h1,h2,h3 {
+      font-size: 20px;
+      font-family: "Free Sans", "Arial", "Verdana", "Times New Roman", "serif";
+      color: Red;
+    }
+  </style>
+</html>
